@@ -11,10 +11,10 @@ import Foundation   // allows for use of URL & the Process() class to be used to
 func toggleDarkMode() {
     let process = Process()
     
-    // points to the tool that handles and runs scripts
+    // points to the tool that handles and runs AppleScript
     process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
    
-    // tells macOS to invert the current DarkMode state
+    // tells macOS to invert the current DarkMode state & sends script to system events to change appearance
     process.arguments = ["-e", "tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode"]
     do {
         try process.run()
@@ -25,7 +25,7 @@ func toggleDarkMode() {
 
 @main
 struct LunaApp: App {
-    @State private var darkIsEnabled: Bool = false
+    @State private var darkIsEnabled: Bool = true
     
     var body: some Scene {
        
@@ -34,15 +34,13 @@ struct LunaApp: App {
             // VStack arranges chile elements in a vertical line
             VStack {
                 Text("Luna is running")
-                Button("Toggle On/Off") {
+                Button( darkIsEnabled ? "Dark mode on" : "Dark mode off") {
+                    toggleDarkMode()     // toggle dark mode
                     darkIsEnabled.toggle()
                 }
                 
-                if darkIsEnabled {
-                              Text("Dark mode is turned on")
-                        } else  {
-                            Text("Dark mode is turned off")
-                    }
+                Text(darkIsEnabled ? "Dark mode is turned on" : "Dark mode is off")
+
 
             }
             
