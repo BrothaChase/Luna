@@ -23,9 +23,18 @@ func toggleDarkMode() {
     }
 }
 
+func shouldUseDarkMode(at date : Date) -> Bool {
+    
+    let calendar = Calendar.current  // get current mac's calendar system, time zone & locale settings
+    let hour = calendar.component(.hour, from: date)
+    return hour >= 19 || hour < 7
+}
+
 @main
 struct LunaApp: App {
     @State private var darkIsEnabled: Bool = true
+    @State private var darkModeSchedule: Bool = true
+
     
     var body: some Scene {
        
@@ -34,13 +43,31 @@ struct LunaApp: App {
             // VStack arranges chile elements in a vertical line
             VStack {
                 Text("Luna is running")
-                Button( darkIsEnabled ? "Dark mode on" : "Dark mode off") {
+                Button( darkIsEnabled ? "Dark" : "Light") {
+                  
+                    /*  let shouldBeDark = shouldUseDarkMode(at: Date())
+                    print("Should use Dark Mode: \(shouldBeDark)")  // test code for time */
+                    
+                    darkModeSchedule = false  // turns dark mode schedule off when using manual mode
                     toggleDarkMode()     // toggle dark mode
                     darkIsEnabled.toggle()
                 }
+               
+                /* Button( darkModeSchedule ? "Schedule On" : "Schedule Off") {
+                    darkModeSchedule = true
+                    
+                    let currentDate = Foundation.Date()
+                    let shouldBeDark = shouldUseDarkMode(at: currentDate)
+                    
+                    if darkIsEnabled != shouldBeDark {
+                        toggleDarkMode()
+                        darkIsEnabled = shouldBeDark
+                    }
+                } */
                 
                 Text(darkIsEnabled ? "Dark mode is turned on" : "Dark mode is off")
-
+                Text (darkModeSchedule ? "Schedule on" : "Schedule off")
+                
 
             }
             
