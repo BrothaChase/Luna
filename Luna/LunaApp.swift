@@ -21,7 +21,7 @@ func setDarkMode(enabled: Bool) {
     do {
         try process.run()
     } catch {
-        print("Failed to toggle Dark Mode: /(error)")
+        print("Failed to toggle Dark Mode: \(error)")
     }
 }
 
@@ -43,9 +43,10 @@ struct LunaApp: App {
         MenuBarExtra ("Luna", systemImage: "moon.stars") {
 
             // VStack arranges chile elements in a vertical line
-            VStack {
+            VStack (alignment: .center, spacing: 12) {
                 Text("Luna is running")
                 Button( darkIsEnabled ? "Dark" : "Light") {
+                    
                     let newMode = !darkIsEnabled
                                       
                     darkModeSchedule = false  // turns dark mode schedule off when using manual mode
@@ -73,8 +74,11 @@ struct LunaApp: App {
 
             }
             
+            .padding(16)
+            .frame(width:300)
+                        
         }
-        
+        .menuBarExtraStyle(.window)
     }
  
 }
