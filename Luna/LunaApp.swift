@@ -5,19 +5,22 @@
 //  Created by Chase brown on 7/12/26.
 //
 
+import Foundation  // allows for use of URL & the Process() class to be used to run system level commands
 import SwiftUI
-import Foundation   // allows for use of URL & the Process() class to be used to run system level commands
 
 func setDarkMode(enabled: Bool) {
     let process = Process()
-    
+
     // points to the tool that handles and runs AppleScript
     process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
-    
+
     let appearanceValue = enabled ? "true" : "false"
-   
+
     // Sets macOS Dark Mode to the provided appearance value: true enables Dark Mode, false enables Light Mode
-    process.arguments = ["-e", "tell application \"System Events\" to tell appearance preferences to set dark mode to \(appearanceValue)"]
+    process.arguments = [
+        "-e",
+        "tell application \"System Events\" to tell appearance preferences to set dark mode to \(appearanceValue)",
+    ]
     do {
         try process.run()
     } catch {
@@ -25,8 +28,8 @@ func setDarkMode(enabled: Bool) {
     }
 }
 
-func shouldUseDarkMode(at date : Date) -> Bool {
-    
+func shouldUseDarkMode(at date: Date) -> Bool {
+
     let calendar = Calendar.current  // get current mac's calendar system, time zone & locale settings
     let hour = calendar.component(.hour, from: date)
     return hour >= 19 || hour < 7
@@ -37,48 +40,46 @@ struct LunaApp: App {
     @State private var darkIsEnabled: Bool = true
     @State private var darkModeSchedule: Bool = true
 
-    
     var body: some Scene {
-       
-        MenuBarExtra ("Luna", systemImage: "moon.stars") {
+
+        MenuBarExtra("Luna", systemImage: "moon.stars") {
 
             // VStack arranges chile elements in a vertical line
-            VStack (alignment: .center, spacing: 12) {
+            VStack(alignment: .center, spacing: 12) {
                 Text("Luna is running")
-                Button( darkIsEnabled ? "Dark" : "Light") {
-                    
+                Button(darkIsEnabled ? "Dark" : "Light") {
+
                     let newMode = !darkIsEnabled
-                                      
+
                     darkModeSchedule = false  // turns dark mode schedule off when using manual mode
-                    setDarkMode(enabled: newMode)     // set dark mode
+                    setDarkMode(enabled: newMode)  // set dark mode
                     darkIsEnabled = newMode
                 }
-               
-                 Button( darkModeSchedule ? "Schedule On" : "Schedule Off") {
-                     darkModeSchedule.toggle()    //toggles schedule on and off
-                    
-                     if darkModeSchedule {
-                         
-                         let currentDate = Date()
-                         let shouldBeDark = shouldUseDarkMode(at: currentDate)
-                         setDarkMode(enabled: shouldBeDark)
-                         darkIsEnabled = shouldBeDark
-                                            
-                     }
-                   
-                        
+
+                Button(darkModeSchedule ? "Schedule On" : "Schedule Off") {
+                    darkModeSchedule.toggle()  //toggles schedule on and off
+
+                    if darkModeSchedule {
+
+                        let currentDate = Date()
+                        let shouldBeDark = shouldUseDarkMode(at: currentDate)
+                        setDarkMode(enabled: shouldBeDark)
+                        darkIsEnabled = shouldBeDark
+
+                    }
+
                 }
-                
+
                 Text(darkIsEnabled ? "Dark mode is on" : "Dark mode is off")
-                Text (darkModeSchedule ? "Schedule on" : "Schedule off")
+                Text(darkModeSchedule ? "Schedule on" : "Schedule off")
 
             }
-            
+
             .padding(16)
-            .frame(width:300)
-                        
+            .frame(width: 300)
+
         }
         .menuBarExtraStyle(.window)
     }
- 
+
 }
