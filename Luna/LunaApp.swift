@@ -43,7 +43,10 @@ struct LunaApp: App {
     var body: some Scene {
 
         MenuBarExtra("Luna", systemImage: "moon.stars") {
-
+            VStack(spacing:0) {
+                ContentView()
+            }
+            
             // VStack arranges chile elements in a vertical line
             VStack(alignment: .center, spacing: 12) {
                 Text("Luna is running")
@@ -70,13 +73,13 @@ struct LunaApp: App {
 
                 }
 
-                Text(darkIsEnabled ? "Dark mode is on" : "Dark mode is off")
-                Text(darkModeSchedule ? "Schedule on" : "Schedule off")
+                 Text(darkIsEnabled ? "Dark mode is on" : "Dark mode is off")
+                 Text(darkModeSchedule ? "Schedule on" : "Schedule off")
 
             }
 
             .padding(16)
-            .frame(width: 300)
+            .frame(width: 320)
 
         }
         .menuBarExtraStyle(.window)
