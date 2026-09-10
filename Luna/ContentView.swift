@@ -9,16 +9,29 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
+        HStack (spacing: 12) {
+            Image(systemName: "moon.stars.fill")
+                .font(.system(size: 32))
                 .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+                //.foregroundStyle(.tint)
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Luna")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+               
+                Text("Appearance, on your schedule")
+                    .font(.subheadline)
+                     .foregroundStyle(.secondary) // mutes sub text
+            }
+          
         }
-        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
     }
 }
 
 #Preview {
     ContentView()
+        .frame(width: 320)
 }
