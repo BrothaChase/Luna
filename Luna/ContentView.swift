@@ -22,13 +22,64 @@ struct ContentView: View {
                
                 Text("Appearance, on your schedule")
                     .font(.subheadline)
-                     .foregroundStyle(.secondary) // mutes sub text
+                    .foregroundStyle(.secondary) // mutes sub text
             }
           
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
+        
+        VStack (alignment: .leading,spacing: 15) {
+               Text("APPEARANCE")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+           
+            HStack (spacing: 10) {
+                
+                Button {
+                   print("Light mode is turned on")
+                } label: {
+                    
+                    VStack (spacing: 8) {
+                        Image(systemName: "sun.max")
+                        .font(.title)
+                        Text("Light")
+                    }
+                    .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.primary.opacity(0.04))
+                        )
+                }
+                
+                Button {
+                    print ("Dark mode is turned on")
+                } label: {
+                    VStack (spacing: 8) {
+                        Image(systemName: "moon.fill")
+                            .font(.title)
+                            Text("Dark")
+                    }
+                    .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.primary.opacity(0.04))
+                        )
+
+                }
+
+            }
+            
+            
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .buttonStyle(.plain)
+        .padding(16)
     }
+    
+    
 }
 
 #Preview {
