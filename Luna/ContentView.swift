@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    // START: Hover state — each button tracks its own pointer hover.
+ 
     @State private var isLightHovered = false
     @State private var isDarkHovered = false
     @State private var isDarkSelected = true
-    // END: Hover state
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: "moon.stars.fill")
@@ -53,19 +53,21 @@ struct ContentView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    //  Light button purple hover
+                    //  Light button background color
                     .background(
                         RoundedRectangle(cornerRadius: 12)
                             .fill(
-                                isLightHovered
+                                isLightHovered || !isDarkSelected
                                     ? Color.purple.opacity(0.12)
                                     : Color.primary.opacity(0.04)
                             )
                     )
+                    
+                    // button border
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(
-                                isLightHovered
+                                isLightHovered || !isDarkSelected
                                     ? Color.purple
                                     : Color.secondary.opacity(0.25),
                                 lineWidth: 1
@@ -73,11 +75,6 @@ struct ContentView: View {
                     )
                     .contentShape(RoundedRectangle(cornerRadius: 12))
 
-                }
-
-                // Update Light hover state when the pointer enters or leaves.
-                .onHover { hovering in
-                    isLightHovered = hovering
                 }
 
                 Button {
@@ -96,7 +93,7 @@ struct ContentView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 12)
                             .fill(
-                                isDarkHovered
+                                isDarkHovered || isDarkSelected
                                     ? Color.purple.opacity(0.12)
                                     : Color.primary.opacity(0.04)
                             )
@@ -104,7 +101,7 @@ struct ContentView: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(
-                                isDarkHovered
+                                isDarkHovered || isDarkSelected
                                     ? Color.purple
                                     : Color.secondary.opacity(0.25),
                                 lineWidth: 1
@@ -112,10 +109,6 @@ struct ContentView: View {
                     )
                     .contentShape(RoundedRectangle(cornerRadius: 12))
 
-                }
-                // Update Dark hover state when the pointer enters or leaves.
-                .onHover { hovering in
-                    isDarkHovered = hovering
                 }
 
             }
