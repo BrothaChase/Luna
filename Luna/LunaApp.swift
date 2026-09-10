@@ -8,14 +8,16 @@
 import SwiftUI
 import Foundation   // allows for use of URL & the Process() class to be used to run system level commands
 
-func toggleDarkMode() {
+func setDarkMode(enabled: Bool) {
     let process = Process()
     
     // points to the tool that handles and runs AppleScript
     process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+    
+    let appearanceValue = enabled ? "true" : "false"
    
-    // tells macOS to invert the current DarkMode state & sends script to system events to change appearance
-    process.arguments = ["-e", "tell application \"System Events\" to tell appearance preferences to set dark mode to not dark mode"]
+    // Sets macOS Dark Mode to the provided appearance value: true enables Dark Mode, false enables Light Mode
+    process.arguments = ["-e", "tell application \"System Events\" to tell appearance preferences to set dark mode to \(appearanceValue)"]
     do {
         try process.run()
     } catch {
@@ -44,30 +46,30 @@ struct LunaApp: App {
             VStack {
                 Text("Luna is running")
                 Button( darkIsEnabled ? "Dark" : "Light") {
-                  
-                    /*  let shouldBeDark = shouldUseDarkMode(at: Date())
-                    print("Should use Dark Mode: \(shouldBeDark)")  // test code for time */
-                    
+                    let newMode = !darkIsEnabled
+                                      
                     darkModeSchedule = false  // turns dark mode schedule off when using manual mode
-                    toggleDarkMode()     // toggle dark mode
-                    darkIsEnabled.toggle()
+                    setDarkMode(enabled: newMode)     // set dark mode
+                    darkIsEnabled = newMode
                 }
                
-                /* Button( darkModeSchedule ? "Schedule On" : "Schedule Off") {
-                    darkModeSchedule = true
+                 Button( darkModeSchedule ? "Schedule On" : "Schedule Off") {
+                     darkModeSchedule.toggle()    //toggles schedule on and off
                     
-                    let currentDate = Foundation.Date()
-                    let shouldBeDark = shouldUseDarkMode(at: currentDate)
-                    
-                    if darkIsEnabled != shouldBeDark {
-                        toggleDarkMode()
-                        darkIsEnabled = shouldBeDark
-                    }
-                } */
+                     if darkModeSchedule {
+                         
+                         let currentDate = Date()
+                         let shouldBeDark = shouldUseDarkMode(at: currentDate)
+                         setDarkMode(enabled: shouldBeDark)
+                         darkIsEnabled = shouldBeDark
+                                            
+                     }
+                   
+                        
+                }
                 
-                Text(darkIsEnabled ? "Dark mode is turned on" : "Dark mode is off")
+                Text(darkIsEnabled ? "Dark mode is on" : "Dark mode is off")
                 Text (darkModeSchedule ? "Schedule on" : "Schedule off")
-                
 
             }
             
