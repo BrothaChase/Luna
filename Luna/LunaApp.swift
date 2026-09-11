@@ -53,6 +53,8 @@ struct LunaApp: App {
                     }
                 )
             }
+            // Keep the custom UI at the same width as its preview.
+            .frame(width: 320)
 
             // VStack arranges chile elements in a vertical line
             VStack(alignment: .center, spacing: 12) {

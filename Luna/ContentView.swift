@@ -11,11 +11,24 @@ struct ContentView: View {
  
     @State private var isLightHovered = false
     @State private var isDarkHovered = false
+
+    
+    
+    @State private var isScheduleEnabled = false
+    @State private var lightBegins = Calendar.current.date(
+        bySettingHour: 7, minute: 0, second: 0, of: Date()
+    ) ?? Date()
+    @State private var darkBegins = Calendar.current.date(
+        bySettingHour: 19, minute: 0, second: 0, of: Date()
+    ) ?? Date()
+    
     
     let isDarkSelected: Bool
     let onSelectAppearance: (Bool) -> Void
 
     var body: some View {
+        // START: A shared vertical container for all panel sections.
+        VStack(alignment: .leading, spacing: 0) {
         HStack(spacing: 12) {
             Image(systemName: "moon.stars.fill")
                 .font(.system(size: 32))
@@ -119,6 +132,56 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .buttonStyle(.plain)
         .padding(16)
+
+        //  Automatic schedule section
+        VStack(alignment: .leading, spacing: 10) {
+            VStack(spacing: 12) {
+                Toggle("Automatic schedule", isOn: $isScheduleEnabled)
+                    .toggleStyle(.switch)
+                    .tint(.purple)
+                    .font(.subheadline.weight(.medium))
+
+                Divider()
+
+                VStack(spacing: 12) {
+                    DatePicker(
+                        "Light begins",
+                        selection: $lightBegins,
+                        displayedComponents: .hourAndMinute
+                    )
+
+                    Divider()
+
+                    DatePicker(
+                        "Dark begins",
+                        selection: $darkBegins,
+                        displayedComponents: .hourAndMinute
+                    )
+                }
+                .datePickerStyle(.field)
+                .font(.subheadline)
+                .disabled(!isScheduleEnabled)
+            }
+            .padding(14)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.primary.opacity(0.04))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.secondary.opacity(0.20), lineWidth: 1)
+            )
+
+            Text("Choose when Light and Dark begin.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 2)
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 16)
+        
+        }
+        
     }
 
 }
