@@ -46,7 +46,7 @@ struct LunaApp: App {
             VStack(spacing: 0) {
                 ContentView(
                     isDarkSelected: darkIsEnabled,
-                    onSelectAppearance: { useDarkMode in  // call incoming value, then execute the following code
+                    onSelectAppearance: { useDarkMode in  // call "useDarMode value, then execute the following code
                         darkModeSchedule = false  // disable scheduling when manually choosing mode
                         setDarkMode(enabled: useDarkMode)  // requests choses macOS appearance
                         darkIsEnabled = useDarkMode  // updates button highlight
@@ -57,15 +57,7 @@ struct LunaApp: App {
             // VStack arranges chile elements in a vertical line
             VStack(alignment: .center, spacing: 12) {
                 Text("Luna is running")
-                Button(darkIsEnabled ? "Dark" : "Light") {
-
-                    let newMode = !darkIsEnabled
-
-                    darkModeSchedule = false  // turns dark mode schedule off when using manual mode
-                    setDarkMode(enabled: newMode)  // set dark mode
-                    darkIsEnabled = newMode
-                }
-
+                
                 Button(darkModeSchedule ? "Schedule On" : "Schedule Off") {
                     darkModeSchedule.toggle()  //toggles schedule on and off
 
