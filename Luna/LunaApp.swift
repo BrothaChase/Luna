@@ -43,10 +43,17 @@ struct LunaApp: App {
     var body: some Scene {
 
         MenuBarExtra("Luna", systemImage: "moon.stars") {
-            VStack(spacing:0) {
-                ContentView()
+            VStack(spacing: 0) {
+                ContentView(
+                    isDarkSelected: darkIsEnabled,
+                    onSelectAppearance: { useDarkMode in  // call incoming value, then execute the following code
+                        darkModeSchedule = false  // disable scheduling when manually choosing mode
+                        setDarkMode(enabled: useDarkMode)  // requests choses macOS appearance
+                        darkIsEnabled = useDarkMode  // updates button highlight
+                    }
+                )
             }
-            
+
             // VStack arranges chile elements in a vertical line
             VStack(alignment: .center, spacing: 12) {
                 Text("Luna is running")
@@ -72,9 +79,6 @@ struct LunaApp: App {
                     }
 
                 }
-
-                 Text(darkIsEnabled ? "Dark mode is on" : "Dark mode is off")
-                 Text(darkModeSchedule ? "Schedule on" : "Schedule off")
 
             }
 

@@ -11,7 +11,9 @@ struct ContentView: View {
  
     @State private var isLightHovered = false
     @State private var isDarkHovered = false
-    @State private var isDarkSelected = true
+    
+    let isDarkSelected: Bool
+    let onSelectAppearance: (Bool) -> Void
 
     var body: some View {
         HStack(spacing: 12) {
@@ -42,7 +44,7 @@ struct ContentView: View {
             HStack(spacing: 10) {
 
                 Button {
-                isDarkSelected = false
+                onSelectAppearance(false)
                     print("Light mode is turned on")
                 } label: {
 
@@ -78,7 +80,7 @@ struct ContentView: View {
                 }
 
                 Button {
-                isDarkSelected = true
+                onSelectAppearance(true)
                     print("Dark mode is turned on")
                 } label: {
                     VStack(spacing: 8) {
@@ -122,6 +124,11 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(
+        isDarkSelected: true,
+                onSelectAppearance: { useDarkMode in
+                    print("Requested Dark Mode: \(useDarkMode)")
+                }
+            )
         .frame(width: 320)
 }
