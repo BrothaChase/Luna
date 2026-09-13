@@ -11,23 +11,24 @@ struct ContentView: View {
  
     @State private var isLightHovered = false
     @State private var isDarkHovered = false
+    //@State private var selectedTime = Date()
 
     
     
     @State private var isScheduleEnabled = false
     @State private var lightBegins = Calendar.current.date(
-        bySettingHour: 7, minute: 0, second: 0, of: Date()
+        bySettingHour: 21, minute: 27, second: 0, of: Date()
     ) ?? Date()
     @State private var darkBegins = Calendar.current.date(
-        bySettingHour: 19, minute: 0, second: 0, of: Date()
+        bySettingHour: 21, minute: 28, second: 0, of: Date()
     ) ?? Date()
     
     
     let isDarkSelected: Bool
     let onSelectAppearance: (Bool) -> Void
-
+   // let isScheduleEnabled: Bool
     var body: some View {
-        // START: A shared vertical container for all panel sections.
+        // A shared vertical container for all panel sections.
         VStack(alignment: .leading, spacing: 0) {
         HStack(spacing: 12) {
             Image(systemName: "moon.stars.fill")
@@ -149,7 +150,7 @@ struct ContentView: View {
                         selection: $lightBegins,
                         displayedComponents: .hourAndMinute
                     )
-
+                   
                     Divider()
 
                     DatePicker(

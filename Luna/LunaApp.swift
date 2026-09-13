@@ -32,7 +32,7 @@ func shouldUseDarkMode(at date: Date) -> Bool {
 
     let calendar = Calendar.current  // get current mac's calendar system, time zone & locale settings
     let hour = calendar.component(.hour, from: date)
-    return hour >= 19 || hour < 7
+    return hour >= 22 || hour < 7
 }
 
 @main
@@ -46,7 +46,7 @@ struct LunaApp: App {
             VStack(spacing: 0) {
                 ContentView(
                     isDarkSelected: darkIsEnabled,
-                    onSelectAppearance: { useDarkMode in  // call "useDarMode value, then execute the following code
+                    onSelectAppearance: { useDarkMode in  // call "useDarMode" value, then execute the following code
                         darkModeSchedule = false  // disable scheduling when manually choosing mode
                         setDarkMode(enabled: useDarkMode)  // requests choses macOS appearance
                         darkIsEnabled = useDarkMode  // updates button highlight
@@ -56,7 +56,7 @@ struct LunaApp: App {
             // Keep the custom UI at the same width as its preview.
             .frame(width: 320)
 
-            // VStack arranges chile elements in a vertical line
+            // VStack arranges child elements in a vertical line
             VStack(alignment: .center, spacing: 12) {
                 Text("Luna is running")
                 
